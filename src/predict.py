@@ -6,7 +6,6 @@ import joblib
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MODEL_PATH = ROOT / "models" / "headline_svm.joblib"
-FALLBACK_MODEL_PATH = ROOT / "models" / "linear_svm.joblib"
 
 
 def rank_decision_scores(model, text, limit=3):
@@ -43,16 +42,15 @@ def main():
     )
     parser.add_argument(
         "--model", type=Path, default=None,
-        help="Model joblib path (default: headline_svm.joblib, then linear_svm.joblib).",
+        help="Model joblib path (default: headline_svm.joblib).",
     )
     args = parser.parse_args()
 
     if bool(args.text) == bool(args.file):
         parser.error("Provide exactly one of TEXT or --file.")
 
-    model_path = args.model or (
-        DEFAULT_MODEL_PATH if DEFAULT_MODEL_PATH.exists() else FALLBACK_MODEL_PATH
-    )
+    model_path = args.model or DEFAULT_MODEL_PATH
+    
     if not model_path.is_file():
         parser.error(
             f"Model not found: {model_path}. Train it first or pass --model PATH."
