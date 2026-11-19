@@ -1,0 +1,6 @@
+# Install in the project's existing virtual environment.
+# PyTorch wheels differ by platform; install torch separately if needed.
+transformers>=4.44,<5
+sentencepiece>=0.2
+pandas>=2.0
+numpy>=1.24
